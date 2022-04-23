@@ -66,16 +66,18 @@ class VehicleController extends BaseController
             ORDER BY b.master_vehicle_id, order_id
         ");
 
-        $id = $results[0]->vehicle_type;
-        $vehicleName = DB::select("
-            SELECT
-                name
-            FROM
-                master_vehicle
-            WHERE
-                id = $id
-        ");
-        array_unshift($results, $vehicleName[0]);
+        if ( sizeof($results) > 0 ) {
+            $id = $results[0]->vehicle_type;
+            $vehicleName = DB::select("
+                SELECT
+                    name
+                FROM
+                    master_vehicle
+                WHERE
+                    id = $id
+            ");
+            array_unshift($results, $vehicleName[0]);
+        }
 
         return $results;
     }
